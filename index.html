@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free/Freemium VPN & SSH Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Dark Mode Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Even darker background for a premium feel */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items to the top */
+            min-height: 100vh;
+            padding: 2.5rem 1.5rem; /* Increased padding */
+            box-sizing: border-box;
+            color: #e2e8f0; /* Light text color */
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: #1e293b; /* Slightly lighter dark background for container */
+            border-radius: 2rem; /* More rounded corners for a softer look */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+            padding: 3rem; /* Increased padding */
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 3.5rem; /* Larger and bolder for impact */
+            font-weight: 800;
+            color: #f8fafc;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+            letter-spacing: -0.05em; /* Tighter letter spacing for modern look */
+            line-height: 1.1;
+        }
+        h2 {
+            font-size: 1.875rem; /* Larger card titles */
+            font-weight: 700;
+            color: #f8fafc;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.75rem;
+        }
+        p {
+            color: #cbd5e0;
+            line-height: 1.6; /* Improved line height for readability */
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #2d3748; /* Darker background for cards */
+            border-radius: 1.25rem; /* Slightly more rounded cards */
+            padding: 2rem; /* More padding inside cards */
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25); /* Enhanced card shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease, opacity 0.3s ease; /* Added opacity for filter animation */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid transparent; /* Subtle border for hover effect */
+        }
+        .card:hover {
+            transform: translateY(-8px); /* More pronounced lift */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4); /* Stronger hover shadow */
+            border-color: #6366f1; /* Accent border on hover */
+        }
+        .service-summary {
+            color: #a0aec0; /* Slightly lighter gray for summary */
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        .advantages-list {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+            margin-top: 0.75rem;
+            color: #a0aec0;
+        }
+        .advantages-list li {
+            margin-bottom: 0.35rem;
+        }
+        .disadvantages-text {
+            color: #fca5a5;
+            font-weight: 500;
+            margin-top: 1.25rem; /* More space */
+            line-height: 1.5;
+        }
+
+        /* Button Styles */
+        .visit-button {
+            display: inline-block;
+            background-image: linear-gradient(to right, #6366f1, #8b5cf6); /* Subtle gradient */
+            color: white;
+            padding: 0.85rem 2rem; /* Larger button */
+            border-radius: 0.75rem;
+            text-decoration: none;
+            font-weight: 700; /* Bolder text */
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-top: 2rem; /* More space above button */
+            width: fit-content;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3); /* Shadow matching gradient */
+        }
+        .visit-button:hover {
+            background-image: linear-gradient(to right, #4f46e5, #7c3aed); /* Darker gradient on hover */
+            transform: translateY(-3px); /* More lift on hover */
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5); /* Stronger shadow on hover */
+        }
+
+        /* Important Considerations Section - Dark Mode */
+        .important-considerations {
+            background-color: #3f2a00; /* Darker, richer yellow/brown for alert */
+            border-left-color: #fbbf24; /* Brighter yellow border */
+            color: #fcd34d; /* Bright yellow text */
+            padding: 1.5rem; /* More padding */
+            border-radius: 1rem; /* Rounded corners */
+        }
+        .important-considerations .font-bold {
+            color: #fcd34d;
+        }
+        .important-considerations ul li {
+            color: #fcd34d;
+        }
+
+        /* Star Rating */
+        .star-rating {
+            color: #facc15; /* Yellow stars */
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Search Bar */
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid #4a5568; /* Darker border */
+            background-color: #2d3748; /* Darker background */
+            color: #e2e8f0;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #6366f1; /* Accent color on focus */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Category Heading */
+        .category-heading {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #93c5fd; /* Light blue for category headings */
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #4a5568; /* Separator line */
+        }
+        .faq-item {
+            background-color: #2d3748;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden; /* Ensures content doesn't spill */
+        }
+        .faq-question {
+            width: 100%;
+            background-color: #4a5568; /* Darker background for question header */
+            color: #f8fafc;
+            padding: 1.25rem 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            border-radius: 0.75rem; /* Match parent border-radius */
+        }
+        .faq-question:hover {
+            background-color: #5a677d; /* Slightly lighter on hover */
+        }
+        .faq-question.active {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .faq-answer {
+            padding: 1rem 1.5rem;
+            background-color: #2d3748;
+            color: #cbd5e0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-height: 0; /* Hidden by default */
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Smooth transition */
+        }
+        .faq-answer.active {
+            max-height: 500px; /* Adjust as needed for content length */
+            padding: 1rem 1.5rem;
+        }
+        .faq-answer ul {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+            margin-top: 0.5rem;
+        }
+        .faq-answer ul li {
+            margin-bottom: 0.25rem;
+        }
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-question.active .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 2.5rem;
+            }
+            h1 {
+                font-size: 2.75rem;
+            }
+            h2 {
+                font-size: 1.6rem;
+            }
+            .category-heading {
+                font-size: 1.75rem;
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+            .container {
+                padding: 1.5rem;
+                border-radius: 1.25rem;
+            }
+            h1 {
+                font-size: 2.25rem;
+                letter-spacing: -0.025em;
+            }
+            h2 {
+                font-size: 1.35rem;
+            }
+            .grid-cols-1 {
+                grid-template-columns: 1fr;
+            }
+            .md\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+            .visit-button {
+                width: 100%; /* Full width button on mobile */
+                padding: 0.75rem 1.5rem;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+            .category-heading {
+                font-size: 1.5rem;
+            }
+            .faq-question {
+                font-size: 1rem;
+                padding: 1rem 1.25rem;
+            }
+            .faq-answer {
+                padding: 0.75rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-4xl font-extrabold text-center mb-8">
+            Free/Freemium VPN & SSH Services
+        </h1>
+        <p class="text-center mb-10 text-lg">
+            Explore various providers offering secure and private internet access to enhance your online privacy and freedom.
+        </p>
+
+        <!-- Important Considerations Section -->
+        <div class="important-considerations border-l-4 p-4 rounded-lg mb-10" role="alert">
+            <p class="font-bold text-lg mb-2">Important Considerations for Free Services:</p>
+            <ul class="list-disc list-inside mt-2 text-base">
+                <li>**Account Expiration:** Many free SSH/VPN accounts have limited validity periods (e.g., 3, 7, 30 days) and require re-creation.</li>
+                <li>**Server Load & Speed:** Free servers can experience high traffic, leading to slower speeds and occasional disconnections.</li>
+                <li>**Data Limits:** Some free VPNs impose monthly or daily data caps.</li>
+                <li>**Privacy:** While they enhance privacy from your ISP, always check the provider's logging policy.</li>
+                <li>**Ads:** Some free services may display ads.</li>
+            </ul>
+        </div>
+
+        <!-- Search Filter -->
+        <input type="text" id="serviceSearch" class="search-input" placeholder="Search for a service or feature...">
+
+        <!-- Service Categories and Cards -->
+
+        <h3 class="category-heading">Top Freemium VPN Services</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="freemiumVpnCategory">
+            <!-- Proton VPN Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★★★★</div>
+                    <h2 class="card-title">Proton VPN</h2>
+                    <p class="service-summary">
+                        A highly-regarded freemium VPN service known for its robust free tier offering **unlimited data**, strong privacy (no logs, Swiss-based), no ads, and advanced security features.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Limitations of Free Tier:** Limited server locations and typically one simultaneous connection.
+                    </p>
+                </div>
+                <a href="https://protonvpn.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- Windscribe VPN Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★★★☆</div>
+                    <h2 class="card-title">Windscribe VPN</h2>
+                    <p class="service-summary">
+                        A freemium VPN with a generous free data plan (10GB/month with email) and a strong focus on privacy, ad/tracker blocking, and bypassing censorship.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Limitations of Free Tier:** Data limit.
+                    </p>
+                </div>
+                <a href="https://windscribe.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- Hide.me VPN Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★★★☆</div>
+                    <h2 class="card-title">Hide.me VPN</h2>
+                    <p class="service-summary">
+                        A freemium VPN offering a lifetime free plan (verify current data limits). Features a strong no-log policy, independent audits, and supports various protocols including WireGuard.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Limitations of Free Tier:** Limited server locations and typically one device connection.
+                    </p>
+                </div>
+                <a href="https://hide.me/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- PrivadoVPN Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★★☆☆</div>
+                    <h2 class="card-title">PrivadoVPN</h2>
+                    <p class="service-summary">
+                        A freemium VPN service offering a generous free data allowance (e.g., 10GB/month) with a strict no-log policy. Includes features like Kill Switch and Split Tunneling.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Limitations of Free Tier:** Data limit is not suitable for heavy streaming or large downloads. One device connection.
+                    </p>
+                </div>
+                <a href="https://privadovpn.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- TunnelBear VPN Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★★☆☆</div>
+                    <h2 class="card-title">TunnelBear VPN</h2>
+                    <p class="service-summary">
+                        A user-friendly freemium VPN with a strong no-logging policy and independent audits. Its free plan allows access to *all* server locations, but with a low data cap.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Limitations of Free Tier:** Limited data (e.g., 2GB per month), insufficient for heavy usage.
+                    </p>
+                </div>
+                <a href="https://tunnelbear.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+        </div>
+
+        <h3 class="category-heading">Free SSH/VPN Account Providers</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="sshVpnAccountCategory">
+            <!-- SSH Ocean Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★★☆☆</div>
+                    <h2 class="card-title">SSH Ocean</h2>
+                    <p class="service-summary">
+                        Provides free premium SSH and VPN accounts with a wide range of protocols like V2Ray, WireGuard, and OpenVPN for secure, fast, and censorship-bypassing internet access.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Note:** Accounts typically expire and need to be re-created manually.
+                    </p>
+                </div>
+                <a href="https://sshocean.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- VPN Jantit Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★★☆☆</div>
+                    <h2 class="card-title">VPN Jantit</h2>
+                    <p class="service-summary">
+                        Offers free and premium SSH, OpenVPN, V2Ray, WireGuard, and other VPN accounts. Features unlimited bandwidth and supports multiple devices, with free plans lasting up to 7 days.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Note:** Free accounts expire periodically.
+                    </p>
+                </div>
+                <a href="https://vpnjantit.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- FastSSH Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★☆☆☆</div>
+                    <h2 class="card-title">FastSSH</h2>
+                    <p class="service-summary">
+                        Provides free SSH and VPN accounts, often supporting SSH, WebSocket, V2Ray, and Trojan protocols. Known for focusing on high-speed servers and user-friendly account creation.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Note:** Free accounts have expiry dates.
+                    </p>
+                </div>
+                <a href="https://fastssh.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- HideSSH Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★☆☆☆</div>
+                    <h2 class="card-title">HideSSH</h2>
+                    <p class="service-summary">
+                        Offers free SSH and VPN tunneling accounts with a comprehensive list of supported protocols, including OpenVPN, WireGuard, Shadowsocks, and V2Ray/VMess, focusing on security and privacy.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Note:** Free accounts are temporary.
+                    </p>
+                </div>
+                <a href="https://hidessh.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- TCPVPN Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★☆☆☆</div>
+                    <h2 class="card-title">TCPVPN</h2>
+                    <p class="service-summary">
+                        Provides free VPN accounts supporting OpenVPN, WireGuard, and other protocols. Emphasizes secure, unlimited bandwidth, and high-speed connections, often without registration.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Note:** Account details might change frequently for some free servers.
+                    </p>
+                </div>
+                <a href="https://tcpvpn.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+
+            <!-- JagoanSSH Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★★☆☆☆</div>
+                    <h2 class="card-title">JagoanSSH</h2>
+                    <p class="service-summary">
+                        Offers free premium accounts for various tunneling methods like SSH, WebSocket, OpenVPN, V2Ray, WireGuard, and Trojan, providing access to advanced server configurations.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Note:** Accounts typically have a limited lifespan.
+                    </p>
+                </div>
+                <a href="https://jagoanssh.com/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+        </div>
+
+        <h3 class="category-heading">Academic / Community VPN Projects</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="academicCategory">
+            <!-- VPN Gate Card -->
+            <div class="card">
+                <div>
+                    <div class="star-rating">★☆☆☆☆</div>
+                    <h2 class="card-title">VPN Gate</h2>
+                    <p class="service-summary">
+                        A free, academic research project offering public VPN relay servers. Completely free with no registration, useful for bypassing some blocks.
+                    </p>
+                    <p class="disadvantages-text text-sm">
+                        **Major Disadvantages:** Significant privacy concerns (logs IP/activity), no Kill Switch, inconsistent speeds, and limited reliability. Not recommended for high privacy needs.
+                    </p>
+                </div>
+                <a href="https://vpngate.net/" target="_blank" rel="noopener noreferrer" class="visit-button">Visit Website</a>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h3 class="category-heading">Frequently Asked Questions (FAQ)</h3>
+
+            <!-- FAQ Item 1 -->
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is a VPN and an SSH Tunnel?
+                    <span class="arrow-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p class="mb-2">A **VPN (Virtual Private Network)** creates a secure, encrypted connection over a less secure network, like the internet. It masks your IP address and encrypts your online traffic, protecting your data from your ISP, hackers, and surveillance. It also allows you to bypass geo-restrictions by making it appear as if you are browsing from a different location.</p>
+                    <p>An **SSH Tunnel (Secure Shell Tunnel)**, also known as SSH port forwarding, creates an encrypted tunnel through an SSH connection. While primarily used for secure remote access to servers, it can also be used to tunnel network traffic, similar to a basic VPN, to bypass firewalls or access blocked content. It's often more lightweight and flexible for specific tunneling needs.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item">
+                <button class="faq-question">
+                    Do these services provide "free internet"?
+                    <span class="arrow-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p class="mb-2">No, these services **do not provide free internet access** by bypassing your mobile data or ISP charges. They utilize your existing internet connection (Wi-Fi or mobile data) to encrypt and reroute your traffic. While the *service* of the VPN/SSH account itself might be free, you still pay your internet provider for the data you consume.</p>
+                    <p>What they offer for free is the ability to secure your connection, hide your IP address, and bypass censorship or geo-restrictions, allowing you to access sites like Facebook or YouTube if they are otherwise blocked in your region, *using your existing data plan*.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item">
+                <button class="faq-question">
+                    Are free VPN/SSH services safe to use?
+                    <span class="arrow-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p class="mb-2">The safety of free VPN/SSH services varies greatly. Reputable freemium providers (like Proton VPN, Windscribe, Hide.me) often have strong privacy policies and security features, as their free tier is supported by premium users. However, many completely free services may pose risks:</p>
+                    <ul class="list-disc list-inside ml-4">
+                        <li>**Data Logging:** Some free providers may log and sell your browsing data to advertisers.</li>
+                        <li>**Weaker Encryption:** They might use less secure encryption protocols.</li>
+                        <li>**Malware/Ads:** Some can inject ads or even malware into your browsing.</li>
+                        <li>**Slow Speeds & Unreliability:** Limited resources often lead to poor performance.</li>
+                    </ul>
+                    <p class="mt-2">Always research a provider's reputation and privacy policy before use. Services like VPN Gate, while functional, openly admit to logging data, making them less ideal for privacy-sensitive activities.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item">
+                <button class="faq-question">
+                    How do I choose the best free VPN/SSH service?
+                    <span class="arrow-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p class="mb-2">Consider the following factors when choosing:</p>
+                    <ul class="list-disc list-inside ml-4">
+                        <li>**Data Limit:** If you need it for more than casual browsing, look for higher data caps or unlimited options (like Proton VPN's free tier).</li>
+                        <li>**Privacy Policy:** Prioritize providers with a strict "no-logs" policy.</li>
+                        <li>**Supported Protocols:** Ensure it supports modern and secure protocols (e.g., WireGuard, OpenVPN, V2Ray) that are effective for your needs (e.g., bypassing censorship).</li>
+                        <li>**Server Locations:** Choose a service with servers in locations relevant to your needs (e.g., to access geo-restricted content).</li>
+                        <li>**Ease of Use:** Some services require more technical setup (like manual SSH accounts), while others offer user-friendly apps.</li>
+                        <li>**Reputation:** Stick to well-known providers or those with positive reviews regarding security and reliability.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-item">
+                <button class="faq-question">
+                    What are common VPN/SSH protocols and their uses?
+                    <span class="arrow-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <ul class="list-disc list-inside ml-4">
+                        <li>**OpenVPN:** Highly secure, open-source, and widely used. Good for general security and bypassing censorship.</li>
+                        <li>**WireGuard:** Newer, very fast, and efficient with a smaller codebase, making it easier to audit. Excellent for speed and modern security.</li>
+                        <li>**V2Ray (VMess/VLESS):** Known for advanced obfuscation capabilities, making it highly effective at bypassing strict internet censorship by disguising traffic.</li>
+                        <li>**Shadowsocks:** A proxy designed specifically to bypass internet censorship, often lighter than a full VPN.</li>
+                        <li>**SSH Tunneling:** Primarily for secure remote access, but can also forward traffic to bypass simple firewalls.</li>
+                        <li>**IKEv2/IPSec:** Good for mobile devices due to its stability and quick reconnection when switching networks.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search Filter Logic
+        document.getElementById('serviceSearch').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const categories = ['freemiumVpnCategory', 'sshVpnAccountCategory', 'academicCategory'];
+
+            categories.forEach(categoryId => {
+                const categoryDiv = document.getElementById(categoryId);
+                const cards = categoryDiv.getElementsByClassName('card');
+                let categoryHasVisibleCards = false;
+
+                for (let i = 0; i < cards.length; i++) {
+                    const card = cards[i];
+                    const cardText = card.textContent.toLowerCase();
+                    if (cardText.includes(searchTerm)) {
+                        card.style.display = 'flex'; // Show card
+                        card.style.opacity = '1';
+                        categoryHasVisibleCards = true;
+                    } else {
+                        card.style.display = 'none'; // Hide card
+                        card.style.opacity = '0';
+                    }
+                }
+
+                // Show/hide category heading based on whether it has visible cards
+                const categoryHeading = categoryDiv.previousElementSibling;
+                if (categoryHeading && categoryHeading.classList.contains('category-heading')) {
+                    if (categoryHasVisibleCards) {
+                        categoryHeading.style.display = 'block';
+                    } else {
+                        categoryHeading.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // FAQ Dropdown Logic
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqAnswer = button.nextElementSibling;
+                const arrowIcon = button.querySelector('.arrow-icon');
+
+                // Toggle active class on the button
+                button.classList.toggle('active');
+
+                // Toggle visibility and max-height for smooth transition
+                if (faqAnswer.classList.contains('active')) {
+                    faqAnswer.classList.remove('active');
+                    faqAnswer.style.maxHeight = '0';
+                    faqAnswer.style.paddingTop = '0';
+                    faqAnswer.style.paddingBottom = '0';
+                } else {
+                    faqAnswer.classList.add('active');
+                    // Set max-height to scrollHeight to allow dynamic content
+                    faqAnswer.style.maxHeight = faqAnswer.scrollHeight + 'px';
+                    faqAnswer.style.paddingTop = '1rem';
+                    faqAnswer.style.paddingBottom = '1rem';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
